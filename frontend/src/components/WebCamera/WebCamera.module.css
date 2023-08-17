@@ -1,0 +1,69 @@
+@keyframes showFade {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes hideFade {
+    from { opacity: 1 }
+    to { opacity: 0 }
+}
+
+.container {
+    z-index: 100;
+    grid-area: webcamera;
+    border-radius: 10px;
+    background: #313134;
+    width: 640px;
+    height: 480px;
+    box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.16), 0 3px 6px 0 rgba(0, 0, 0, 0.12), 0 5px 12px 4px rgba(0, 0, 0, 0.09);
+    animation: showFade 1s ease-in;
+    opacity: 0;
+    animation-fill-mode: forwards;
+
+    justify-self: center;
+}
+
+
+.rec {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    position: absolute;
+    justify-items: center;
+    align-items: center;
+    z-index: 100;
+    top: 10px;
+    left: 10px;
+
+    color: #eeeeee;
+
+    padding: 3px 5px;
+    border-radius: 5px;
+    background: rgba(36, 36, 40, 0.40);
+    height: 18px;
+
+    opacity: 0;
+
+    animation: showFade 1s ease-in;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+
+.rec p {
+    margin: 0;
+    padding: 0;
+}
+
+.close {
+    opacity: 1;
+    animation: hideFade 0.5s ease-out forwards;
+    animation-delay: 0.4s;
+}
+
+@media (max-height: 720px) {
+    .container {
+        width: 533px;
+        height: 400px;
+        justify-self: end;
+    }
+}

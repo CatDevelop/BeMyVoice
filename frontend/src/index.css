@@ -1,0 +1,311 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+
+}
+
+::-webkit-scrollbar-track {
+    /*background-color: #f5f5f5;*/
+    border-radius: 10px;
+    margin: 10px;
+    /*box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);*/
+}
+
+::-webkit-scrollbar-thumb {
+    margin: 10px;
+    border-radius: 10px;
+    background-color: #4F4F53;
+    border: 5px solid transparent;
+}
+
+.darkTheme {
+    background-color: rgb(36, 36, 40);
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.darkTheme .tox-statusbar__branding {
+    display: none;
+}
+
+.darkTheme .tox-edit-area__iframe {
+    background-color: #313134 !important;
+    color: white !important;
+}
+
+.darkTheme .tox-menu {
+    background-color: #202023 !important;
+    margin-top: 10px !important;
+}
+
+.darkTheme .tox-tinymce {
+    border: 0px red solid !important;
+}
+
+.darkTheme .tox-statusbar,
+.darkTheme .tox-menubar,
+.darkTheme .tox-toolbar-overlord,
+.darkTheme .tox-toolbar__overflow,
+.darkTheme .tox-toolbar__primary,
+.darkTheme .tox-editor-header {
+    background-color: #4F4F53 !important;
+}
+
+.darkTheme .tox-mbtn {
+    color: white !important;
+}
+
+.darkTheme .tox-collection__item--active:not(.tox-swatch),
+.darkTheme .tox-mbtn--active,
+.darkTheme .tox-mbtn:hover:not(:disabled):not(.tox-mbtn--active) {
+    background-color: #404040 !important;
+}
+
+.darkTheme .tox-collection__item {
+    color: white !important;
+    /*background-color: #404040 !important;*/
+}
+
+.darkTheme .tox-collection__item--enabled {
+    background-color: #202023 !important;
+    box-shadow: 0 0 0 1px #404040 inset !important;
+}
+
+.darkTheme .tox-collection__item--enabled:hover {
+    background-color: #404040 !important;
+    box-shadow: 0 0 0 1px #404040 inset !important;
+}
+
+.darkTheme .tox-collection__item-accessory {
+    color: #9C9C9C !important;
+}
+
+.darkTheme .tox-tbtn svg {
+    fill: white !important;
+    color: white !important;
+}
+
+.darkTheme .tox-tbtn:focus,
+.darkTheme .tox-tbtn--enabled,
+.darkTheme .tox-tbtn--enabled:hover,
+.darkTheme .tox-tbtn--select,
+.darkTheme .tox-mbtn--active,
+.darkTheme .tox-tbtn:hover {
+    background: #404040 !important;
+}
+
+.darkTheme .tox-split--enabled,
+.darkTheme .tox-split-button:hover {
+    box-shadow: 0 0 0 1px #404040 inset;
+    background-color: #404040 !important;
+}
+
+.darkTheme .tox-tbtn__select-label {
+    color: white !important;
+}
+
+.darkTheme .tox-swatches__picker-btn {
+    display: none !important;
+}
+
+.darkTheme .tox-statusbar__wordcount,
+.darkTheme .tox-statusbar__path-item,
+.darkTheme .tox-statusbar {
+    color: white !important;
+}
+
+
+.darkTheme .tox-pop__dialog {
+    background-color: #202023 !important;
+    border: 1px solid #202023 !important;
+}
+
+.darkTheme .ce-toolbar__settings-btn:hover,
+.darkTheme .ce-toolbar__plus:hover {
+    background-color: #404040 !important;
+}
+
+.darkTheme .ce-toolbar__settings-btn,
+.darkTheme .ce-toolbar__plus {
+    color: white !important;
+}
+
+.darkTheme .ce-inline-toolbar,
+    /*.ce-inline-toolbar__toggler-and-button-wrapper,*/
+.darkTheme .tc-popover,
+.darkTheme .ce-toolbox,
+.darkTheme .ce-popover,
+.darkTheme .ce-conversion-toolbar {
+    background-color: #202023 !important;
+    border: 0px solid transparent !important;
+}
+
+.darkTheme .cdx-search-field {
+    background-color: rgb(79, 79, 83) !important;
+}
+
+.ce-popover--opened {
+    min-width: 300px !important;
+    z-index: 10000 !important;
+}
+
+.darkTheme .tc-popover__item-icon,
+.darkTheme .ce-popover-item__icon,
+.darkTheme .ce-conversion-tool__icon {
+    background-color: transparent !important;
+    border: 0px solid transparent !important;
+}
+
+.darkTheme [data-item-name='math'],
+.darkTheme [data-item-name='AnyButton'] {
+    fill: white !important;
+}
+
+
+.darkTheme .ce-popover-item__icon svg {
+    color: white !important;
+    /*fill: white !important;*/
+}
+
+.darkTheme [data-tool="changeCase"] path,
+.darkTheme [data-tool="subscript"] path,
+[data-item-name='gist'] path,
+[data-item-name='inlineImage'] path,
+[data-item-name='code'] path,
+[data-item-name='mermaid'] path {
+    fill: black;
+    stroke: none;
+}
+
+.darkTheme [data-tool="changeCase"] path,
+.darkTheme [data-tool="subscript"] path,
+.darkTheme [data-item-name='gist'] path,
+.darkTheme [data-item-name='inlineImage'] path,
+.darkTheme [data-item-name='code'] path,
+.darkTheme [data-item-name='mermaid'] path {
+    fill: white;
+    stroke: none;
+}
+
+.darkTheme .ce-Math {
+    color: white;
+}
+
+.darkTheme .tc-add-column:hover,
+.darkTheme .tc-add-row:hover,
+.darkTheme .ce-inline-tool:hover,
+.darkTheme .ce-inline-toolbar__dropdown:hover,
+.darkTheme .ce-popover-item:hover,
+.darkTheme .ce-conversion-tool:hover {
+    background-color: #404040 !important;
+}
+
+.darkTheme .cdx-search-field__icon svg {
+    color: white !important;
+    /*fill: white !important;*/
+}
+
+.darkTheme .cdx-search-field__input {
+    color: white !important;
+}
+
+.darkTheme .ce-popover-item__title {
+    font-family: "Raleway", sans-serif;
+    color: white;
+}
+
+.ce-toolbar__content,
+.ce-block__content {
+    min-width: 600px !important;
+    max-width: 1000px !important;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+/*.ce-toolbar__actions {*/
+/*  left: -75px !important;*/
+/*}*/
+
+.darkTheme .tc-add-row:before {
+    background-color: transparent !important;
+}
+
+.darkTheme .ce-block--selected .ce-block__content {
+    background-color: #404040 !important;
+    border-radius: 5px !important;
+}
+
+.darkTheme .ce-block__content {
+    padding: 0 3px !important;
+}
+
+.cdx-button {
+    max-width: 400px;
+    margin: auto;
+}
+
+.darkTheme .nice-select-dropdown,
+.darkTheme .nice-select {
+    background-color: #313134 !important;
+    color: white !important;
+    border: 0px solid transparent !important;
+}
+
+.darkTheme .option:hover {
+    background-color: #404040 !important;
+}
+
+.darkTheme .nice-select-search {
+    background-color: #404040 !important;
+    color: white !important;
+    border: 0px solid transparent !important;
+}
+
+.codeBoxSelectDropIcon {
+    display: none;
+}
+
+.codeBoxSelectItem:hover {
+    opacity: 1 !important;
+    background-color: #E8E8E8;
+}
+
+.codeBoxSelectInput {
+    background-color: #3b3b45 !important;
+    color: white !important;
+}
+
+/*.darkTheme #id0 .loopText > tspan,*/
+/*.darkTheme #id0 .loopText,*/
+/*.darkTheme #id0 .messageText {*/
+/*    fill: white !important;*/
+/*}*/
+
+/*.darkTheme #id0 .messageLine1,*/
+/*.darkTheme #id0 .messageLine0 {*/
+/*    stroke: white !important;*/
+/*    fill: white !important;*/
+/*}*/
+
+/*.darkTheme #id0 path {*/
+/*    !*fill: white !important;*!*/
+/*    stroke: white !important;*/
+/*}*/
+/*.darkTheme #id0 .titleText,*/
+/*.darkTheme #id0 .sectionTitle0,*/
+/*.darkTheme #id0 .grid .tick text {*/
+/*    fill: white;*/
+/*}*/

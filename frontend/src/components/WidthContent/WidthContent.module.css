@@ -1,0 +1,11 @@
+.app {
+    width: 100vw;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}

@@ -1,0 +1,71 @@
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Black.otf');
+    font-weight: 900;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Heavy.otf');
+    font-weight: 800;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Bold.otf');
+    font-weight: 700;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Semibold.otf');
+    font-weight: 600;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Medium.otf');
+    font-weight: 500;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Regular.otf');
+    font-weight: 400;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Light.otf');
+    font-weight: 300;
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Thin.otf');
+    font-weight: 200;
+    font-display: fallback;
+}
+
+
+@font-face {
+    font-family: SFPro;
+    src: url('./assets/font/SF-Pro-Display-Ultralight.otf');
+    font-weight: 100;
+    font-display: fallback;
+}
+
+.App {
+    /*height: 100vh;*/
+}
+
+.darkTheme .App {
+    background-color: rgb(36, 36, 40);
+}
