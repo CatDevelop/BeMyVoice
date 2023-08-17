@@ -7,6 +7,11 @@ if (require('electron-squirrel-startup')) {
     app.quit();
 }
 
+ipcMain.on('voice_dubbing', (event, arg) => {
+    console.log("voice_dubbing")
+    const pythonProcess = spawn('python', [path.join(__dirname, 'voice_dubbing.py'), [arg.voice, arg.text]]);
+});
+
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
