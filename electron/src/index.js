@@ -9,7 +9,7 @@ if (require('electron-squirrel-startup')) {
 
 ipcMain.on('voice_dubbing', (event, arg) => {
     console.log("voice_dubbing")
-    const pythonProcess = spawn('python', [path.join(__dirname, 'voice_dubbing.py'), [arg.voice, arg.text]]);
+    const pythonProcess = spawn('python', [path.join(__dirname, 'voice_dubbing.py'), arg.voice, arg.text]);
 });
 
 ipcMain.on('microphone_rec', (event, arg) => {
