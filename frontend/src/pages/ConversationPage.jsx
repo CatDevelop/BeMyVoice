@@ -50,6 +50,8 @@ export const ConversationPage = (props) => {
             setSignRecognizeText([...signRecognizeText.filter(e => e.type !== 0), {text, type: 1}])
         else
             setSignRecognizeText([...signRecognizeText, {text, type: 1}])
+        
+        ipcRenderer.send('voice_dubbing', {text: text, voice: 'Bys_24000'});
     });
 
     let videoElement;
