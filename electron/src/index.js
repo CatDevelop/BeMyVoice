@@ -12,6 +12,12 @@ ipcMain.on('voice_dubbing', (event, arg) => {
     const pythonProcess = spawn('python', [path.join(__dirname, 'voice_dubbing.py'), [arg.voice, arg.text]]);
 });
 
+ipcMain.on('microphone_rec', (event, arg) => {
+    console.log("microphone_rec")
+    const pythonProcess = spawn('python', [path.join(__dirname, 'read_microphone.py')]);
+});
+
+
 const createWindow = () => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
