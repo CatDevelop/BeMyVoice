@@ -9,7 +9,7 @@ import requests as requests
 
 authorize_root = 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth'
 authorize_headers = {
-    'Authorization': 'Bearer Mzc2ZjNiNDMtMDEyMi00MTZkLWI2NzItNDc0ZTQ4NDAxMWQ3OmQ3NjQ5MTBhLWU4OTgtNDI3OS1iMGFlLTUyMTA4NDY3MTA0Zg==',
+    'Authorization': 'Bearer [Token]',
     'RqUID': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
 }
 
