@@ -3,7 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import classNames from "classnames";
 import {BackgroundDots} from "../components/Dots/BackgroundDots";
-import {Breadcrumb, Space} from "antd";
+import {Breadcrumb, Modal, Select, Space, Form} from "antd";
 import {H4, H5} from "@salutejs/plasma-web";
 import {useInterval} from "@mantine/hooks";
 import {Badge} from "@mantine/core";
@@ -11,13 +11,22 @@ import {RecognizeHistory} from "../components/RecognizeHistory/RecognizeHistory"
 import {SignRecognizeText} from "../components/SignRecognizeText/SignRecognizeText";
 import {WebCamera} from "../components/WebCamera/WebCamera";
 import io from "socket.io-client";
+import {useSubtitles} from "../hooks/use-subtitles";
+import {getServicesSubtitle} from "../store/slices/recognitionsSlice";
+import {useDispatch} from "react-redux";
+
+const {ipcRenderer} = window.require("electron");
 
 
 export const OnlineConferencePage = (props) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [signRecognizeText, setSignRecognizeText] = useState([])
+    const [settingsIsOpen, setSettingsIsOpen] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
+
+    const historyRec = useSubtitles();
 
     const videoRef = useRef(null);
 
@@ -41,10 +50,15 @@ export const OnlineConferencePage = (props) => {
     });
 
     socket.on("send_normalize_text", (text) => {
-        if(signRecognizeText.length > 0)
+        if (signRecognizeText.length > 0)
             setSignRecognizeText([...signRecognizeText.filter(e => e.type !== 0), {text, type: 1}])
         else
             setSignRecognizeText([...signRecognizeText, {text, type: 1}])
+
+        ipcRenderer.send('voice_dubbing', {
+            text: text,
+            voice: localStorage.getItem('BeMyVoiceDubbingVoice') || 'Nec_24000'
+        });
     });
 
     let videoElement;
@@ -52,7 +66,7 @@ export const OnlineConferencePage = (props) => {
     async function startWebcam() {
 
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+            const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}});
             videoElement.srcObject = stream;
 
             videoElement.addEventListener('play', () => {
@@ -73,37 +87,30 @@ export const OnlineConferencePage = (props) => {
     const context = canvas.getContext('2d');
 
 
-
-
-
-
-
     const intervalMenu = useInterval(() => {
         navigate('/menu');
         intervalMenu.stop()
     }, 800)
 
+    const getSubtitles = () => dispatch(getServicesSubtitle())
+
     useEffect(() => {
         socket.emit("test", '123');
         videoElement = document.getElementById('webcam');
+        ipcRenderer.send('start_voice_recognization_server');
+
+
+        ipcRenderer.send('start_back_server');
+        dispatch(getServicesSubtitle())
+        setInterval(getSubtitles, 6000);
     }, []);
 
 
-    const stroke = <span className={s.stroke} style={{ animationPlayState: props.playing ? 'running': 'paused'}}></span>
+    const stroke = <span className={s.stroke} style={{animationPlayState: props.playing ? 'running' : 'paused'}}></span>
 
-
-
-    const recognizeHistory = [
-        {text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)', emotion: 'positive'},
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-        {text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)', emotion: 'positive'},
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-        {text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)', emotion: 'positive'},
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-    ]
+    const setVoiceSetting = (v) => {
+        localStorage.setItem("BeMyVoiceDubbingVoice", v)
+    }
 
     startWebcam();
 
@@ -127,7 +134,12 @@ export const OnlineConferencePage = (props) => {
                         <Breadcrumb
                             style={{zIndex: 200}}
                             className={s.breadcrumbs}
-                            separator={<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'center'}}><H4 >/</H4></div>}
+                            separator={<div style={{
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                                justifyContent: 'center',
+                                alignContent: 'center'
+                            }}><H4>/</H4></div>}
                             items={[
                                 {
                                     title: <div style={{zIndex: 200, color: 'white'}}><Link onClick={() => {
@@ -136,14 +148,33 @@ export const OnlineConferencePage = (props) => {
                                     }}><H5 style={{color: 'rgba(255, 255, 255, 0.85)'}}>Меню</H5></Link></div>,
                                 },
                                 {
-                                    title: <div style={{zIndex: 200, height:'22px', padding: '1px 0px'}}><H5>Онлайн конференция</H5></div>,
+                                    title: <div style={{zIndex: 200, height: '22px', padding: '1px 0px'}}>
+                                        <Space style={{height: "24px"}}>
+                                            <H5>Онлайн конференция</H5>
+                                            <div onClick={() => setSettingsIsOpen(true)}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z"
+                                                        stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                        strokeLinejoin="round"/>
+                                                    <path
+                                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                                        stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                        strokeLinejoin="round"/>
+                                                </svg>
+                                            </div>
+                                        </Space>
+                                    </div>,
                                 }
                             ]}
                         />
 
                         <Space align={'end'} size={1} direction={'vertical'} className={s.badges}>
-                            <Badge style={{zIndex: 200, position: 'relative', textTransform: 'unset'}} size="md" radius="xs">Устройство ввода: Динамики компьютера</Badge>
-                            <Badge style={{zIndex: 200, position: 'relative', textTransform: 'unset'}} size="md" radius="xs">Устройство вывода: Виртуальный микрофон (BeMyVoice)</Badge>
+                            <Badge style={{zIndex: 200, position: 'relative', textTransform: 'unset'}} size="md"
+                                   radius="xs">Устройство ввода: Динамики компьютера</Badge>
+                            <Badge style={{zIndex: 200, position: 'relative', textTransform: 'unset'}} size="md"
+                                   radius="xs">Устройство вывода: Виртуальный микрофон (BeMyVoice)</Badge>
                         </Space>
                     </div>
 
@@ -154,10 +185,36 @@ export const OnlineConferencePage = (props) => {
                             <WebCamera isClosing={isClosing} ref={videoRef}/>
                             <SignRecognizeText isClosing={isClosing} signRecognizeText={signRecognizeText}/>
                         </div>
-                        <RecognizeHistory history={recognizeHistory} isClosing={isClosing}/>
+                        <RecognizeHistory history={historyRec.recognitions} isClosing={isClosing}/>
                     </div>
                 </div>
             </div>
+
+            <Modal
+                open={settingsIsOpen}
+                title="Настройки"
+                // onOk={handleOk}
+                onCancel={()=>setSettingsIsOpen(false)}
+                footer={[]}
+            >
+                <Form.Item label="Выберите голос">
+
+                <Select
+                    defaultValue={localStorage.getItem('BeMyVoiceDubbingVoice') || 'Nec_24000'}
+                    style={{width: 120}}
+                    onChange={setVoiceSetting}
+                    title={"Выберите голос"}
+                    options={[
+                        {value: 'Nec_24000', label: 'Наталья'},
+                        {value: 'Bys_24000', label: 'Борис'},
+                        {value: 'May_24000', label: 'Марфа'},
+                        {value: 'Tur_24000', label: 'Тарас'},
+                        {value: 'Ost_24000', label: 'Александра'},
+                        {value: 'Pon_24000', label: 'Сергей'}
+                    ]}
+                />
+                </Form.Item>
+            </Modal>
         </div>
     )
 }

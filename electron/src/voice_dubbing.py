@@ -1,5 +1,3 @@
-# Запускается в Electron
-
 import argparse
 import sys
 
@@ -9,8 +7,8 @@ import requests as requests
 
 authorize_root = 'https://ngw.devices.sberbank.ru:9443/api/v2/oauth'
 authorize_headers = {
-    'Authorization': 'Bearer Mzc2ZjNiNDMtMDEyMi00MTZkLWI2NzItNDc0ZTQ4NDAxMWQ3OmQ3NjQ5MTBhLWU4OTgtNDI3OS1iMGFlLTUyMTA4NDY3MTA0Zg==',
-    'RqUID': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
+    'Authorization': 'Bearer MjVkMjE5MmMtNzBlMC00N2QwLTkyYmYtZDBjMmRhYTlhMDE4OjRkMWRmNGE3LTFjYjYtNGI4Yy05MzgwLWFiOTk0ODBmZWY1Ng==',
+    'rquid': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
 }
 
 root = 'https://smartspeech.sber.ru/rest/v1/text:synthesize'
@@ -19,13 +17,13 @@ params = {
 }
 headers = {
     'Content-Type': 'application/text',
-    'RqUID': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
+    'rquid': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
 }
 
 def authorize():
     global token
     response = requests.post(authorize_root, headers=authorize_headers, data={
-        'scope': 'SALUTE_SPEECH_PERS',
+        'scope': 'SALUTE_SPEECH_CORP',
         'authorization': 'd764910a-e898-4279-b0ae-52108467104f',
         'rquid': '6f0b1291-c7f3-43c6-bb2e-9f3efb2dc98e'
     }, verify=False)

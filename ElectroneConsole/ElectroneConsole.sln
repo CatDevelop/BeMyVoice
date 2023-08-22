@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroneConsole", "ElectroneConsole\ElectroneConsole.csproj", "{AFD720B9-493A-40B4-BB1A-46817A9FB20D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BEMyVoiceApi", "BEMyVoiceApi\BEMyVoiceApi.csproj", "{0463D8E9-D9EC-440C-A3E2-5E32C75ECD54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFD720B9-493A-40B4-BB1A-46817A9FB20D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFD720B9-493A-40B4-BB1A-46817A9FB20D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFD720B9-493A-40B4-BB1A-46817A9FB20D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFD720B9-493A-40B4-BB1A-46817A9FB20D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0463D8E9-D9EC-440C-A3E2-5E32C75ECD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0463D8E9-D9EC-440C-A3E2-5E32C75ECD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0463D8E9-D9EC-440C-A3E2-5E32C75ECD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0463D8E9-D9EC-440C-A3E2-5E32C75ECD54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

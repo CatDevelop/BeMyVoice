@@ -1,57 +1,49 @@
 import s from './Pages.module.css'
 import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import Webcam from "react-webcam";
 import classNames from "classnames";
 import {BackgroundDots} from "../components/Dots/BackgroundDots";
-import {Breadcrumb, Button, Space, Spin} from "antd";
-import {IconDisclosureLeft} from "@salutejs/plasma-icons";
-import {BodyM, H4, H5} from "@salutejs/plasma-web";
-import {LeftOutlined} from "@ant-design/icons";
-import {useInterval} from "@mantine/hooks";
+import {Breadcrumb, Space} from "antd";
+import {H4, H5} from "@salutejs/plasma-web";
+import {useInterval, useListState} from "@mantine/hooks";
 import {Badge} from "@mantine/core";
-import {SLTVizualizer} from "../components/SLTVizualizer/SLTVizualizer";
-import {RecognizeHistoryElement} from "../components/RecognizeHistoryElement/RecognizeHistoryElement";
 import {RecognizeHistory} from "../components/RecognizeHistory/RecognizeHistory";
-import {SignRecognizeText} from "../components/SignRecognizeText/SignRecognizeText";
-import {WebCamera} from "../components/WebCamera/WebCamera";
 import {AIAnimation} from "../components/AIAnimation/AIAnimation";
+import {useSubtitles} from "../hooks/use-subtitles";
+import {getServicesSubtitle} from "../store/slices/recognitionsSlice";
+import {useDispatch} from "react-redux";
+
+const {ipcRenderer} = window.require("electron");
 
 export const ServiceSubtitlesPage = (props) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [isClosing, setIsClosing] = useState(false)
+
+    const historyRec = useSubtitles();
 
     const intervalMenu = useInterval(() => {
         navigate('/menu');
         intervalMenu.stop()
     }, 800)
 
+    const getSubtitles = () => dispatch(getServicesSubtitle())
 
-    const stroke = <span className={s.stroke} style={{animationPlayState: props.playing ? 'running' : 'paused'}}></span>
+    useEffect(() => {
+        ipcRenderer.send('start_back_server');
+        dispatch(getServicesSubtitle())
+        setInterval(getSubtitles, 6000);
+        // setInterval(gg, 20000);
+    }, [])
 
+    const gg = () => {
+        ipcRenderer.send('stop_back_server');
+        setTimeout(() => {
+            ipcRenderer.send('start_back_server');
+        }, 1000);
 
-    const recognizeHistory = [
-        {
-            text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)',
-            emotion: 'positive'
-        },
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-        {
-            text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)',
-            emotion: 'positive'
-        },
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-        {
-            text: 'Привет, Максим! Как твои дела? Надеюсь, что всё отлично и ты хорошо отдыхаешь этим летом)',
-            emotion: 'positive'
-        },
-        {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
-        {text: 'Вы не очень правы!', emotion: 'negative'},
-    ]
-
+    }
 
     return (
         <div className={s.welcomePage}>
@@ -108,7 +100,7 @@ export const ServiceSubtitlesPage = (props) => {
 
                     <div className={s.onlineConferenceContainer}>
                         <AIAnimation isClosing={isClosing}/>
-                        <RecognizeHistory history={recognizeHistory} isClosing={isClosing}/>
+                        <RecognizeHistory history={historyRec.recognitions} isClosing={isClosing}/>
                     </div>
                 </div>
             </div>

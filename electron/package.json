@@ -19,9 +19,10 @@
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
+    "electron-cgi": "^1.0.6",
     "electron-devtools-installer": "^3.2.0",
     "electron-squirrel-startup": "^1.0.0",
-    "python-shell": "^5.0.0"
+    "tree-kill": "^1.2.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.2.1",

@@ -1,20 +1,25 @@
 import s from './Pages.module.css'
 import {H4} from "@salutejs/plasma-web";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Badge} from '@mantine/core';
 import {useNavigate} from "react-router-dom";
 import {useInterval} from "@mantine/hooks";
 import classNames from 'classnames'
-import {Button, Tooltip} from "antd";
-import {QuestionCircleOutlined} from "@ant-design/icons";
+import {Tooltip} from "antd";
 import OnlineConferenceImage from '../assets/images/OnlineConference2.svg'
 import TalkImage from '../assets/images/Talk2.svg'
 import ServiceSubtitlesImage from '../assets/images/ServiceSubtitles2.svg'
 import MicrophoneSubtitlesImage from '../assets/images/MicrophoneSubtitles2.svg'
 import {BackgroundDots} from "../components/Dots/BackgroundDots";
+import {useDispatch} from "react-redux";
+import {removeRecognitions} from "../store/slices/recognitionsSlice";
+
+const {ipcRenderer} = window.require("electron");
+
 
 export const MenuPage = (props) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [isClosing, setIsClosing] = useState(false)
 
     const intervalConf = useInterval(() => {
@@ -39,6 +44,13 @@ export const MenuPage = (props) => {
     }, 1300)
 
     console.log(123123)
+
+    useEffect(() => {
+        // ipcRenderer.send('start_voice_recognization_server');
+        // ipcRenderer.send('stop_voice_recognization_server');
+        ipcRenderer.send('stop_back_server');
+        dispatch(removeRecognitions())
+    }, []);
 
     return (
         <div className={s.welcomePage}>
@@ -87,15 +99,20 @@ export const MenuPage = (props) => {
                                         alignItems: 'center'
                                     }}>
                                         Онлайн конференция
-                                        <Tooltip title={"Комфортное участие в онлайн конференциях: голос собеседников будет трансформировать в текст, а жесты пользователя превращаться в голос. "}>
+                                        <Tooltip
+                                            title={"Комфортное участие в онлайн конференциях: голос собеседников будет трансформировать в текст, а жесты пользователя превращаться в голос. "}>
                                             {/*<Button onClick={e => {*/}
                                             {/*    if (!e) e = window.event;*/}
                                             {/*    e.cancelBubble = true;*/}
                                             {/*    if (e.stopPropagation) e.stopPropagation();*/}
                                             {/*}} size='small' shape="circle" icon={<QuestionCircleOutlined/>}/>*/}
 
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
                                             </svg>
                                         </Tooltip>
                                     </div>
@@ -133,16 +150,20 @@ export const MenuPage = (props) => {
                                         alignItems: 'center'
                                     }}>
                                         Личное общение
-                                        <Tooltip title={"Оффлайн общение - жесты будут озвучиваться с динамиков ноутбука, а голос собеседника переводиться в текст прямо с микрофона."}>
+                                        <Tooltip
+                                            title={"Оффлайн общение - жесты будут озвучиваться с динамиков ноутбука, а голос собеседника переводиться в текст прямо с микрофона."}>
                                             {/*<Button onClick={e => {*/}
                                             {/*    if (!e) e = window.event;*/}
                                             {/*    e.cancelBubble = true;*/}
                                             {/*    if (e.stopPropagation) e.stopPropagation();*/}
                                             {/*}} size='small' shape="circle" icon={<QuestionCircleOutlined/>}/>*/}
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
                                             </svg>
-
 
 
                                         </Tooltip>
@@ -171,14 +192,19 @@ export const MenuPage = (props) => {
                                         alignItems: 'center'
                                     }}>
                                         Субтитры сервисов
-                                        <Tooltip title={"Удобные субтитры с абсолютного любого онлайн сервиса, например с обучающих платформ."}>
+                                        <Tooltip
+                                            title={"Удобные субтитры с абсолютного любого онлайн сервиса, например с обучающих платформ."}>
                                             {/*<Button onClick={e => {*/}
                                             {/*    if (!e) e = window.event;*/}
                                             {/*    e.cancelBubble = true;*/}
                                             {/*    if (e.stopPropagation) e.stopPropagation();*/}
                                             {/*}} size='small' shape="circle" icon={<QuestionCircleOutlined/>}/>*/}
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
                                             </svg>
                                         </Tooltip>
                                     </div>
@@ -208,15 +234,20 @@ export const MenuPage = (props) => {
                                         alignItems: 'center'
                                     }}>
                                         Субтитры окружения
-                                        <Tooltip title={"Субтитры в прямом эфире прямо с микрофона - пригодится при личном взаимодействии, например, в офисе с сотрудниками банка. "}>
+                                        <Tooltip
+                                            title={"Субтитры в прямом эфире прямо с микрофона - пригодится при личном взаимодействии, например, в офисе с сотрудниками банка. "}>
                                             {/*<Button onClick={e => {*/}
                                             {/*    if (!e) e = window.event;*/}
                                             {/*    e.cancelBubble = true;*/}
                                             {/*    if (e.stopPropagation) e.stopPropagation();*/}
                                             {/*}} size='small' shape="circle" icon={<QuestionCircleOutlined/>}/>*/}
 
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.22766 9C8.77678 7.83481 10.2584 7 12.0001 7C14.2092 7 16.0001 8.34315 16.0001 10C16.0001 11.3994 14.7224 12.5751 12.9943 12.9066C12.4519 13.0106 12.0001 13.4477 12.0001 14M12 17H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
                                             </svg>
                                         </Tooltip>
                                     </div>

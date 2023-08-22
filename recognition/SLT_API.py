@@ -35,7 +35,7 @@ room_id = 0
 # Function to parse command-line arguments
 def parse_args():
     parser = argparse.ArgumentParser(description='MMAction2 webcam demo')
-    parser.add_argument('--config_path', default='config.json', help='model config')
+    parser.add_argument('--config_path', default='static/config.json', help='model config')
     parser.add_argument(
         '--device', type=str, default='cpu', help='CPU/CUDA device option')
     parser.add_argument(
@@ -88,7 +88,7 @@ def resize(im, new_shape=(224, 224)):
 # Initialize the ML model with configuration
 def init_model(config_path):
     try:
-        with open(config_path, "r") as read_content:
+        with open('C:\\Users\\User\\OneDrive\\Документы\\My works\\Projects\\BeMyVoice\\recognition\\config.json', "r") as read_content:
             config = json.load(read_content)
     except FileNotFoundError:
         raise FileNotFoundError(f"Configuration file not found at path: {config_path}")
@@ -98,10 +98,10 @@ def init_model(config_path):
     try:
         cfg = OmegaConf.create(
             {
-                "path_to_model": config["model"],
-                "path_to_class_list": config["class_list"],
-                "threshold": config["threshold"],
-                "topk": config["topk"],
+                "path_to_model": 'C:\\Users\\User\\OneDrive\\Документы\\My works\\Projects\\BeMyVoice\\recognition\\S3D.onnx',
+                "path_to_class_list": 'C:\\Users\\User\\OneDrive\\Документы\\My works\\Projects\\BeMyVoice\\recognition\\RSL_class_list.txt',
+                "threshold": 0.7,
+                "topk": 1,
             }
         )
         model = Predictor(cfg)
@@ -147,6 +147,7 @@ def inference(model, frame_queue, result_queue):
                 label = 'он'
             if label == 'вы/твой/ваш':
                 label = 'вы'
+            print(label)
 
             if label != 'нет жеста':
                 if len(sign_res) == 0:
@@ -165,7 +166,7 @@ def inference(model, frame_queue, result_queue):
 def main():
     global frame_queue
     args = parse_args()
-    model = init_model(args.config_path)
+    model = init_model('C:\\Users\\User\\OneDrive\\Документы\\My works\\Projects\\BeMyVoice\\recognition\\config.json')
     data = dict(img_shape=None, modality='RGB', label=-1)
     cam_disp = {'cam': None}
 

@@ -1,20 +1,13 @@
 import s from './Pages.module.css'
 import {Link, useNavigate} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import Webcam from "react-webcam";
+import React, {useState} from "react";
 import classNames from "classnames";
 import {BackgroundDots} from "../components/Dots/BackgroundDots";
-import {Breadcrumb, Button, Space, Spin} from "antd";
-import {IconDisclosureLeft} from "@salutejs/plasma-icons";
-import {BodyM, H4, H5} from "@salutejs/plasma-web";
-import {LeftOutlined} from "@ant-design/icons";
+import {Breadcrumb, Space} from "antd";
+import {H4, H5} from "@salutejs/plasma-web";
 import {useInterval} from "@mantine/hooks";
 import {Badge} from "@mantine/core";
-import {SLTVizualizer} from "../components/SLTVizualizer/SLTVizualizer";
-import {RecognizeHistoryElement} from "../components/RecognizeHistoryElement/RecognizeHistoryElement";
 import {RecognizeHistory} from "../components/RecognizeHistory/RecognizeHistory";
-import {SignRecognizeText} from "../components/SignRecognizeText/SignRecognizeText";
-import {WebCamera} from "../components/WebCamera/WebCamera";
 import {AIAnimation} from "../components/AIAnimation/AIAnimation";
 
 export const MicrophoneSubtitlesPage = (props) => {

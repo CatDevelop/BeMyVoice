@@ -1,15 +1,9 @@
 import {HOST} from './host';
 
-const SIGN_IN = `${HOST}/Authorization.php`;
-const GET_NETWORK_NOTES_TREE = `${HOST}/GetNotes.php`;
-const GET_NETWORK_NOTE = `${HOST}/GetNote.php`;
-
-
+const GET_SERVICE_SUBTITLE = `http://localhost:5144/public/get-services-result`;
 
 const API = {
-    SIGN_IN,
-    GET_NETWORK_NOTES_TREE,
-    GET_NETWORK_NOTE
+    GET_SERVICE_SUBTITLE
 };
 
 export default API;

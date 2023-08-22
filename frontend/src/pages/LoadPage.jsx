@@ -6,12 +6,14 @@ import {useNavigate} from "react-router-dom";
 import classNames from 'classnames'
 import {Dots} from "../components/Dots/Dots";
 
+const {ipcRenderer} = window.require("electron");
 export const LoadPage = (props) => {
     const navigate = useNavigate()
     const [seconds, setSeconds] = useState(0);
     const interval = useInterval(() => setSeconds((s) => s + 1), 1000);
 
     useEffect(() => {
+        // ipcRenderer.send('start_voice_recognization_server');
         interval.start();
         return interval.stop;
     }, []);

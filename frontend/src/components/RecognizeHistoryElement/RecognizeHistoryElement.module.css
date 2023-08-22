@@ -1,3 +1,19 @@
+@keyframes showFade {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes showUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -6,6 +22,8 @@
     background: #4F4F53;
     border-radius: 10px;
     gap: 10px;
+
+    animation: showUp 0.2s ease-in;
 }
 
 .emoji {

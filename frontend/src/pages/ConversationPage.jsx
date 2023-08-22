@@ -1,36 +1,40 @@
 import s from './Pages.module.css'
 import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
-import Webcam from "react-webcam";
 import classNames from "classnames";
 import {BackgroundDots} from "../components/Dots/BackgroundDots";
-import {Breadcrumb, Button, Space, Spin} from "antd";
-import {IconDisclosureLeft} from "@salutejs/plasma-icons";
-import {BodyM, H4, H5} from "@salutejs/plasma-web";
-import {LeftOutlined} from "@ant-design/icons";
+import {Breadcrumb, Modal, Select, Space} from "antd";
+import {H4, H5} from "@salutejs/plasma-web";
 import {useInterval} from "@mantine/hooks";
 import {Badge} from "@mantine/core";
-import {SLTVizualizer} from "../components/SLTVizualizer/SLTVizualizer";
-import {RecognizeHistoryElement} from "../components/RecognizeHistoryElement/RecognizeHistoryElement";
 import {RecognizeHistory} from "../components/RecognizeHistory/RecognizeHistory";
 import {SignRecognizeText} from "../components/SignRecognizeText/SignRecognizeText";
 import {WebCamera} from "../components/WebCamera/WebCamera";
 import io from "socket.io-client";
+
+const {ipcRenderer} = window.require("electron");
 
 
 export const ConversationPage = (props) => {
     const navigate = useNavigate()
 
     const [signRecognizeText, setSignRecognizeText] = useState([])
+    const [settingsIsOpen, setSettingsIsOpen] = useState(false)
     const [isClosing, setIsClosing] = useState(false)
 
     const videoRef = useRef(null);
 
-    const socket = io('ws://localhost:5000', {
+    let socket;
+
+
+    let videoElement;
+
+    socket = io('ws://localhost:5000', {
         'reconnection': true,
         'reconnectionDelay': 500,
-        'reconnectionAttempts': 5
+        'reconnectionAttempts': 100
     });
+
 
     socket.on("connect", () => {
         console.log("Connected to server");
@@ -50,11 +54,12 @@ export const ConversationPage = (props) => {
             setSignRecognizeText([...signRecognizeText.filter(e => e.type !== 0), {text, type: 1}])
         else
             setSignRecognizeText([...signRecognizeText, {text, type: 1}])
-        
-        ipcRenderer.send('voice_dubbing', {text: text, voice: 'Bys_24000'});
-    });
 
-    let videoElement;
+        ipcRenderer.send('voice_dubbing', {
+            text: text,
+            voice: localStorage.getItem('BeMyVoiceDubbingVoice') || 'Nec_24000'
+        });
+    });
 
     async function startWebcam() {
 
@@ -86,8 +91,12 @@ export const ConversationPage = (props) => {
     }, 800)
 
     useEffect(() => {
-        socket.emit("test", '123');
+        // socket.emit("test", '123');
         videoElement = document.getElementById('webcam');
+
+        ipcRenderer.send('start_voice_recognization_server');
+        // socket.reconnection()
+
     }, []);
 
 
@@ -114,6 +123,10 @@ export const ConversationPage = (props) => {
         {text: 'Данный текст является максимально нейтральным', emotion: 'neutral'},
         {text: 'Вы не очень правы!', emotion: 'negative'},
     ]
+
+    const setVoiceSetting = (v) => {
+        localStorage.setItem("BeMyVoiceDubbingVoice", v)
+    }
 
     startWebcam();
 
@@ -147,11 +160,30 @@ export const ConversationPage = (props) => {
                                 {
                                     title: <div style={{zIndex: 200, color: 'white'}}><Link onClick={() => {
                                         setIsClosing(true)
+                                        socket.disconnect()
+                                        // socket.close()
                                         intervalMenu.start()
                                     }}><H5 style={{color: 'rgba(255, 255, 255, 0.85)'}}>Меню</H5></Link></div>,
                                 },
                                 {
-                                    title: <div style={{zIndex: 200, height: '22px', padding: '1px 0px'}}><H5>Личное общение</H5></div>,
+                                    title: <div style={{zIndex: 200, height: '22px', padding: '1px 0px'}}>
+                                        <Space style={{height: "24px"}}>
+                                            <H5>Личное общение</H5>
+                                            <div onClick={() => setSettingsIsOpen(true)}>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
+                                                <path
+                                                    d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                                    stroke="white" strokeWidth="2" strokeLinecap="round"
+                                                    strokeLinejoin="round"/>
+                                            </svg>
+                                            </div>
+                                        </Space>
+                                    </div>,
                                 }
                             ]}
                         />
@@ -175,6 +207,28 @@ export const ConversationPage = (props) => {
                     </div>
                 </div>
             </div>
+            <Modal
+                open={settingsIsOpen}
+                title="Настройки"
+                // onOk={handleOk}
+                onCancel={()=>setSettingsIsOpen(false)}
+                footer={[]}
+            >
+                <Select
+                    defaultValue={localStorage.getItem('BeMyVoiceDubbingVoice') || 'Nec_24000'}
+                    style={{width: 120}}
+                    onChange={setVoiceSetting}
+                    title={"Выберите голос"}
+                    options={[
+                        {value: 'Nec_24000', label: 'Наталья'},
+                        {value: 'Bys_24000', label: 'Борис'},
+                        {value: 'May_24000', label: 'Марфа'},
+                        {value: 'Tur_24000', label: 'Тарас'},
+                        {value: 'Ost_24000', label: 'Александра'},
+                        {value: 'Pon_24000', label: 'Сергей'}
+                    ]}
+                />
+            </Modal>
         </div>
     )
 }

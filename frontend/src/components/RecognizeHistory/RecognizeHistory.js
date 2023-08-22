@@ -13,7 +13,11 @@ export const RecognizeHistory = (props) => {
     const {message} = App.useApp();
     const clipboard = useClipboard({timeout: 1000});
 
-    const allText = props.history.reduce((text, element) => text += element.text + "\n\n", '')
+    let allText = ""
+
+
+    if (props.history.length > 0)
+        allText = props.history.reduce((text, element) => text += element.text + "\n\n", '')
 
     return (
         <div className={classNames(s.container, props.isClosing ? s.close : '')}>
@@ -45,9 +49,10 @@ export const RecognizeHistory = (props) => {
             </div>
             <div className={s.elements}>
                 {
+                    props.history.length > 0 ?
                     props.history.map((element, index) => {
                         return <RecognizeHistoryElement key={"RecognizeHistoryElement"+index} text={element.text} emotion={element.emotion}/>
-                    })
+                    }) : <></>
                 }
             </div>
 
