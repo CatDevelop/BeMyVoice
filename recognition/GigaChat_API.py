@@ -6,7 +6,7 @@ def normalize_text(text):
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer [Token]"
+        "Authorization": "Bearer eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIiwidHlwIjoiSldUIn0..RLiA-7uAexeGKGZi.DL_CeG-tNr-2HzRxqVmg-SxDHAePowdkseIp328YwEdFQ8ZkerAhPw3bRIi1nZUYM_eoINh2pK4.0IcHVKlADECX21DnXRkVhg"
     }
     # text = "Я бег быстро"
     data = {
